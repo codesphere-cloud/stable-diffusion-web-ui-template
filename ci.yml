@@ -1,15 +1,14 @@
 prepare:
   steps:
-    - name: Clone repository
-      command: git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui | (cd stable-diffusion-webui ;
-        git pull)  
+    - name: Fetch repository
+      command: git init . &&  git remote add -t \* -f origin https://github.com/AUTOMATIC1111/stable-diffusion-webui && git checkout master
     - name: Install Python 3.10 (takes a few minutes)
       command: PYENV_ROOT=/home/user/app/.pyenv PIPENV_YES=1 pipenv install --python 3.10 --skip-lock
     - name: Install dependencies
-      command: PYENV_ROOT=/home/user/app/.pyenv && cd stable-diffusion-webui && pipenv run python launch.py --exit      
+      command: PYENV_ROOT=/home/user/app/.pyenv pipenv run python launch.py --exit      
 test:
   steps: []
 run:
   steps:
     - name: Start Server
-      command: PYENV_ROOT=/home/user/app/.pyenv && cd stable-diffusion-webui && pipenv run python launch.py --listen --port 3000
+      command: PYENV_ROOT=/home/user/app/.pyenv pipenv run python launch.py --listen --port 3000
